@@ -440,19 +440,12 @@ class Ui_MainWindow(object):
         self.SettingsTabButton.setText("")
         self.SettingsTabButton.setFlat(True)
         self.SettingsTabButton.setObjectName("SettingsTabButton")
-        #---------------------------------------------------------URL tab button
-        self.URLTabButton = QtWidgets.QPushButton(MainWindow)
-        self.URLTabButton.setGeometry(QtCore.QRect(0, 130, 51, 31))
-        font = QtGui.QFont()
-        font.setPointSize(20)
-        self.URLTabButton.setFont(font)
-        self.URLTabButton.setStyleSheet("background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.1468, fy:0.1468, stop:1 rgba(0, 0, 0, 0));\n"
-"image: url(:/res/SideBar/url.svg);\n"
-"")
-        self.URLTabButton.setText("")
-        self.URLTabButton.setFlat(True)
-        self.URLTabButton.setObjectName("URLTabButton")
-#-----------------------------------------------------------end url butt
+
+        
+        
+       
+
+
         self.Tabs = QtWidgets.QStackedWidget(MainWindow)
         self.Tabs.setGeometry(QtCore.QRect(50, 0, 791, 501))
         font = QtGui.QFont()
@@ -483,6 +476,31 @@ class Ui_MainWindow(object):
         self.ReportIssueButton.setFont(font)
         self.ReportIssueButton.setFlat(False)
         self.ReportIssueButton.setObjectName("ReportIssueButton")
+        
+        self.URLTabButton = QtWidgets.QPushButton(MainWindow)
+        self.URLTabButton.setGeometry(QtCore.QRect(0, 130, 51, 31))
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        self.URLTabButton.setFont(font)
+        self.URLTabButton.setStyleSheet("background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.1468, fy:0.1468, stop:1 rgba(0, 0, 0, 0));\n"
+"image: url(:/res/SideBar/settings.svg);")
+        self.URLTabButton.setText("")
+        self.URLTabButton.setFlat(True)
+        self.URLTabButton.setObjectName("URLTabButton")
+        font.setPointSize(15)
+        self.Tabs.addWidget(self.HomeTab)
+        self.URLTab = QtWidgets.QWidget()
+        self.URLTab.setObjectName("URLTab")
+        self.URLTitle = QtWidgets.QLabel(self.URLTab)
+        self.URLTitle.setGeometry(QtCore.QRect(0, 0, 751, 41))
+        font = QtGui.QFont()
+        font.setPointSize(28)
+        self.URLTitle.setFont(font)
+        self.URLTitle.setAlignment(QtCore.Qt.AlignCenter)
+        self.URLTitle.setObjectName("URLTitle")
+        font = QtGui.QFont()
+        font.setPointSize(15)
+
         self.Tabs.addWidget(self.HomeTab)
         self.SettingsTab = QtWidgets.QWidget()
         self.SettingsTab.setObjectName("SettingsTab")
@@ -496,21 +514,6 @@ class Ui_MainWindow(object):
         self.UseVirusTotalApiCheckBox = QtWidgets.QCheckBox(self.SettingsTab)
         self.UseVirusTotalApiCheckBox.setGeometry(QtCore.QRect(5, 45, 751, 17))
         font = QtGui.QFont()
-
-        ####
-        self.Tabs.addWidget(self.HomeTab)
-        self.URLTab = QtWidgets.QWidget()
-        self.URLTab.setObjectName("URLTab")
-        self.URLTitle = QtWidgets.QLabel(self.URLTab)
-        self.URLTitle.setGeometry(QtCore.QRect(10, 10, 751, 41))
-        font = QtGui.QFont()
-        font.setPointSize(28)
-        self.URLTitle.setFont(font)
-        self.URLTitle.setAlignment(QtCore.Qt.AlignCenter)
-        self.URLTitle.setObjectName("URLTitle")
-        font = QtGui.QFont()
-        ####
-
         font.setPointSize(15)
         self.UseVirusTotalApiCheckBox.setFont(font)
         self.UseVirusTotalApiCheckBox.setObjectName("UseVirusTotalApiCheckBox")
@@ -575,7 +578,7 @@ class Ui_MainWindow(object):
         self.FileName.setObjectName("FileName")
         self.FilePath = QtWidgets.QLabel(self.VirusScanResults_hidden)
         self.FilePath.setGeometry(QtCore.QRect(5, 75, 741, 31))
-        font = QtGui.QFont()
+        font = QtGui.QFont()        
         font.setPointSize(14)
         self.FilePath.setFont(font)
         self.FilePath.setObjectName("FilePath")
@@ -598,7 +601,7 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.IsFileVirusY_N.setFont(font)
-        self.IsFileVirusY_N.setStyleSheet("color: rgb(255, 0, 0);")
+        self.IsFileVirusY_N.setStyleSheet("color: #F2CD5C;")
         self.IsFileVirusY_N.setAlignment(QtCore.Qt.AlignCenter)
         self.IsFileVirusY_N.setObjectName("IsFileVirusY_N")
         self.ReturnToHomeTabButton = QtWidgets.QPushButton(self.VirusScanResults_hidden)
@@ -719,6 +722,15 @@ class Ui_MainWindow(object):
         self.CurrentTabSettings.setGeometry(QtCore.QRect(0, 90, 3, 31))
         self.CurrentTabSettings.setText("")
         self.CurrentTabSettings.setObjectName("CurrentTabSettings")
+        self.CurrentTabURL = QtWidgets.QLabel(MainWindow)
+        self.CurrentTabURL.setGeometry(QtCore.QRect(0, 130, 3, 31))
+        self.CurrentTabURL.setText("")
+        self.CurrentTabURL.setObjectName("CurrentTabURL")
+
+
+
+
+        
         ##
         self.CurrentTabURL = QtWidgets.QLabel(MainWindow)
         self.CurrentTabURL.setGeometry(QtCore.QRect(0, 130, 3, 31))
@@ -810,14 +822,14 @@ class Ui_MainWindow(object):
                     else:
                         apply_stylesheet(object, theme=f'{current_dir}/res/themes/light_pink.xml', extra=extra)
                     self.CurrentTabHome.setStyleSheet("background-color: rgb(182, 182, 182);")
-                    self.CurrentTabSettings.setStyleSheet("background-color: rgb(255, 0, 0);")
+                    self.CurrentTabSettings.setStyleSheet("background-color: #F2CD5C;")
                     #
-                    self.CurrentTabURL.setStyleSheet("background-color: rgb(255, 0, 0);")
+                    self.CurrentTabURL.setStyleSheet("background-color: #F2CD5C;")
                     #
                     self.SideBar.setStyleSheet("background-color: rgb(182, 182, 182);")
                     self.SideBar_2.setStyleSheet("background-color: rgb(182, 182, 182);")
                     self.CurrentTabHome.setStyleSheet("background-color: rgb(182, 182, 182);")
-                    self.CurrentTabSettings.setStyleSheet("background-color: rgb(231, 84, 128);")
+                    self.CurrentTabSettings.setStyleSheet("background-color: #F2CD5C;")
                     # set title backgrounds
                     self.HomeTitle.setStyleSheet("background-color: rgb(182, 182, 182);")
                     self.SettingsTitle.setStyleSheet("background-color: rgb(182, 182, 182);")
@@ -841,7 +853,7 @@ class Ui_MainWindow(object):
                     self.SideBar.setStyleSheet("background-color: rgb(81, 89, 97);")
                     self.SideBar_2.setStyleSheet("background-color: rgb(81, 89, 97);")
                     self.CurrentTabHome.setStyleSheet("background-color: rgb(81, 89, 97);")
-                    self.CurrentTabSettings.setStyleSheet("background-color: rgb(255, 0, 0);")
+                    self.CurrentTabSettings.setStyleSheet("background-color: #F2CD5C")
                     # set title backgrounds
                     self.HomeTitle.setStyleSheet("background-color: rgb(81, 89, 97);")
                     self.URLTitle.setStyleSheet("background-color: rgb(81, 89, 97);")
@@ -868,17 +880,17 @@ class Ui_MainWindow(object):
             self.HomeTabButton.setStyleSheet("image: url(:/res/SideBar/home.svg);\n")
             self.SettingsTabButton.setStyleSheet("image: url(:/res/SideBar/settings.svg);\n")
             ###
-            self.URLTabButton.setStyleSheet("image: url(:/res/SideBar/url.svg);\n")
+            self.URLTabButton.setStyleSheet("image: url(:/res/SideBar/settings.svg);\n")
             ###
             if self.LightModeButton.text() == "Light Mode":
                 self.CurrentTabSettings.setStyleSheet("background-color: rgb(81, 89, 97);")
-                self.CurrentTabHome.setStyleSheet("background-color: rgb(255, 0, 0);")
-                self.CurrentTabURL.setStyleSheet("background-color: rgb(255, 0, 0);")
+                self.CurrentTabHome.setStyleSheet("background-color: #F2CD5C;")
+                self.CurrentTabURL.setStyleSheet("background-color: #F2CD5C;")
             else:
                 # light mode
                 self.CurrentTabSettings.setStyleSheet("background-color: rgb(182, 182, 182);")
-                self.CurrentTabHome.setStyleSheet("background-color: rgb(231, 84, 128);")
-                self.CurrentTabURL.setStyleSheet("background-color: rgb(231, 84, 128);")
+                self.CurrentTabHome.setStyleSheet("background-color: #F2CD5C;")
+                self.CurrentTabURL.setStyleSheet("background-color: #F2CD5C;")
                 
 
 
@@ -888,13 +900,13 @@ class Ui_MainWindow(object):
             self.Tabs.setCurrentIndex(1)
             self.SettingsTabButton.setStyleSheet("image: url(:/res/SideBar/settings.svg);\n")
             self.HomeTabButton.setStyleSheet("image: url(:/res/SideBar/home.svg);\n")
-            self.URLTabButton.setStyleSheet("image: url(:/res/SideBar/url.svg);\n")
+            self.URLTabButton.setStyleSheet("image: url(:/res/SideBar/settings.svg);\n")
             if self.LightModeButton.text() == "Light Mode":
-                self.CurrentTabSettings.setStyleSheet("background-color: rgb(255, 0, 0);")
+                self.CurrentTabSettings.setStyleSheet("background-color: #F2CD5C;")
                 self.CurrentTabHome.setStyleSheet("background-color: rgb(81, 89, 97);")
             else:
                 # light mode
-                self.CurrentTabSettings.setStyleSheet("background-color: rgb(231, 84, 128);")
+                self.CurrentTabSettings.setStyleSheet("background-color: #F2CD5C;")
                 self.CurrentTabHome.setStyleSheet("background-color: rgb(182, 182, 182);")
                 
             return	
