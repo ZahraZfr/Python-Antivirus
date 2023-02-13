@@ -8,6 +8,9 @@ import requests
 import hashlib
 import sys
 import os
+import json
+import time
+
 
 
 # get current directory
@@ -35,7 +38,7 @@ Report_issues = "https://github.com/Len-Stevens/Python-Antivirus/issues/new"
 Submit_sample = "https://github.com/Len-Stevens/Python-Antivirus/discussions/8"
 virus_total_api = "https://www.virustotal.com/api/v3/files/report"
 meta_defender_api = "https://api.metadefender.com/v4/hash/" # + hash
-
+API_KEY = '7de940eec2bdd629613c2000095d0e07a25f5ff071a71ae3839ee7df9f31472f'
 # save settings to settings/settings.ini
 def SaveSettings(self):
     # get api keys
@@ -381,23 +384,38 @@ def browseFiles(MainWindow, self):
     self.FilePath.setText("File Path:  " + filepath)
     
     scan(filepath, self, MainWindow)
+# scan url************************************
+def scan_url(url):
+    url = 'https://www.virustotal.com/vtapi/v2/url/scan'
+    params = {'apikey':API_KEY, 'url': url}
+    response = requests.post(url, params=params)
+    return response.json()
+
+def scan_results(resource):
+    url = 'https://www.virustotal.com/vtapi/v2/url/report'
+    params = {'apikey':API_KEY, 'resource': resource}
+    response = requests.get(url, params=params)
+    return response.json()
 
 
-#scan url
-# url = input("Enter URL Address: ")
-# def open_website(url):
-#     scan_response = scan_url(url)
-#     resource = scan_response.get('resource')
-#     if resource:
-#         scan_result = scan_results(resource)
-#         positives = scan_result.get('positives')
-#         if positives > 0:
-#             print(f'{positives} out of {scan_result.get("total")} scanners found this URL to be malicious.')
-#         else:
-#             print('This URL is not malicious.')
-#             webbrowser.open(url)
-#     else:
-#         print(scan_response)
+url = input("Enter URL Address: ")
+def url_website(self,url):
+    scan_response = scan_url(url)
+    resource = scan_response.get('resource')
+    if resource:
+        scan_result = scan_results(resource)
+        positives = scan_result.get('positives')
+        if positives > 0:
+            print(f'{positives} out of {scan_result.get("total")} **malicious**.')
+            self.label_9.setText('**malicious**')
+        else:
+            print('^^^ Safe ^^^')
+            self.label_9.setText('^^^ Safe ^^^')
+            webbrowser.open(url)
+    else:
+        self.label_9.setText(scan_response)
+        print(scan_response)
+# url_website(url)
 
 # UI (made with pyqt5)
 class Ui_MainWindow(object):
@@ -736,7 +754,22 @@ class Ui_MainWindow(object):
         self.CurrentTabURL.setGeometry(QtCore.QRect(0, 130, 3, 31))
         self.CurrentTabURL.setText("")
         self.CurrentTabURL.setObjectName("CurrentTabURL")
-        ##
+        ##        
+        self.lineEdit = QtWidgets.QLineEdit(MainWindow)
+        self.lineEdit.setGeometry(QtCore.QRect(270, 360, 241, 22))
+        self.lineEdit.setObjectName("lineEdit")
+        self.pushButton_3 = QtWidgets.QPushButton(MainWindow)
+        self.pushButton_3.setGeometry(QtCore.QRect(300, 380, 93, 28))
+        self.pushButton_3.setObjectName("pushButton")
+        self.label_8 = QtWidgets.QLabel(MainWindow)
+        self.label_8.setGeometry(QtCore.QRect(200, 350, 181, 16))
+        self.label_8.setText("")
+        self.label_8.setObjectName("label_8")
+        self.pushButton_3.clicked.connect(lambda: url_website)
+        self.label_9 = QtWidgets.QLabel(MainWindow)
+        self.label_9.setGeometry(QtCore.QRect(200, 410, 181, 16))
+        self.label_9.setText("")
+        self.label_9.setObjectName("label_9")
 
         #
         self.Tabs.setCurrentIndex(0)
@@ -910,14 +943,27 @@ class Ui_MainWindow(object):
                 self.CurrentTabHome.setStyleSheet("background-color: rgb(182, 182, 182);")
                 
             return	
-
+        def change_tab_url(self):
+            self.Tabs.setCurrentIndex(2)
+            self.SettingsTabButton.setStyleSheet("image: url(:/res/SideBar/settings.svg);\n")
+            self.HomeTabButton.setStyleSheet("image: url(:/res/SideBar/home.svg);\n")
+            self.URLTabButton.setStyleSheet("image: url(:/res/SideBar/settings.svg);\n")
+            if self.LightModeButton.text() == "Light Mode":
+                self.CurrentTabSettings.setStyleSheet("background-color: #F2CD5C;")
+                self.CurrentTabHome.setStyleSheet("background-color: rgb(81, 89, 97);")
+            else:
+                # light mode
+                self.CurrentTabSettings.setStyleSheet("background-color: #F2CD5C;")
+                self.CurrentTabHome.setStyleSheet("background-color: rgb(182, 182, 182);")
+                
+            return	
 
         # change tabs buttons
         self.HomeTabButton.clicked.connect(lambda: change_tab_settings(self))
 
         self.SettingsTabButton.clicked.connect(lambda: change_tab_home(self))
 
-        self.URLTabButton.clicked.connect(lambda: change_tab_home(self))
+        self.URLTabButton.clicked.connect(lambda: change_tab_url(self))
 
         # report issue button
         self.ReportIssueButton.clicked.connect(lambda: webbrowser.open_new(Report_issues))
@@ -927,6 +973,9 @@ class Ui_MainWindow(object):
 
         # save settings button
         self.SaveSettingsButton.clicked.connect(lambda: SaveSettings(self))
+
+        # check url button
+        self.pushButton_3.clicked.connect(lambda: url_website(self,url))
 
         # style mode button
         self.LightModeButton.clicked.connect(lambda: style_mode(self))
@@ -964,6 +1013,10 @@ class Ui_MainWindow(object):
         self.LoadingPageTitle.setText(_translate("MainWindow", "..."))
         self.label_7.setText(_translate("MainWindow", "loading..."))
         self.version_display.setText(_translate("MainWindow", f"v{VERSION}"))
+        self.label_8.setText(_translate("MainWindow", "insert URL:"))
+        self.pushButton_3.setText(_translate("MainWindow", "check URL"))
+        self.label_9.setText(_translate("MainWindow", "url status: "))
+        
 # import resources
 import res.res_rc
 
@@ -980,3 +1033,4 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
+
